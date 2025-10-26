@@ -29,15 +29,15 @@ int main(int argc, char *argv[]) {
     if (argc < 4) {
         fprintf(stderr, "Usage: %s <start-date> <end-date> <author> [mean-commits-per-day]\n", argv[0]);
         fprintf(stderr, "Date format: YYYY-MM-DD\n");
-        fprintf(stderr, "exemple : gitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\"\n");
-        fprintf(stderr, "exemple : gitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\" 25\n");
+        fprintf(stderr, "exemple : GitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\"\n");
+        fprintf(stderr, "exemple : GitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\" 25\n");
         return 1;
     }
     struct tm start_tm, end_tm;
     if (!parse_date(argv[1], &start_tm) || !parse_date(argv[2], &end_tm)) {
         fprintf(stderr, "Invalid date format. Use YYYY-MM-DD.\n");
-        fprintf(stderr, "exemple : gitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\"\n");
-        fprintf(stderr, "exemple : gitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\" 25\n");
+        fprintf(stderr, "exemple : GitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\"\n");
+        fprintf(stderr, "exemple : GitNoiseMaker 2022-01-01 2022-12-31 \"Lucasgood5 <00000000+Lucasgood5@users.noreply.github.com>\" 25\n");
         return 1;
     }
     const char *author = argv[3];
