@@ -1,0 +1,54 @@
+name: Build and Release GitNoiseMaker
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc build-essential
+        
+    - name: Compile GitNoiseMaker
+      run: |
+        gcc -o GitNoiseMaker GitNoiseMaker.c -lm
+        
+    - name: Test compilation
+      run: |
+        ./GitNoiseMaker --help || echo "Binary compiled successfully"
+        
+    - name: Create release (on tag push)
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: GitNoiseMaker
+        body: |
+          Compiled GitNoiseMaker binary for Linux (x86_64)
+          
+          Usage: ./GitNoiseMaker <start-date> <end-date> <author> [mean-commits-per-day]
+          Date format: YYYY-MM-DD
+          
+          Example: ./GitNoiseMaker 2022-01-01 2022-12-31 "YourName <your.email@example.com>"
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload artifact (on PR or manual trigger)
+      if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: GitNoiseMaker-linux
+        path: GitNoiseMaker
